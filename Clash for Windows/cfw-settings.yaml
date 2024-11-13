@@ -15,8 +15,8 @@ connProfile: true
 connProxy: 1
 latencyTimeout: .nan
 fontFamily: ""
-proxyOrder: 1
-proxyDelayType: 0
+proxyOrder: 0
+proxyDelayType: 1
 latencyUrl: http://www.apple.com/library/test/success.html
 theme: 0
 mixinText: |
@@ -159,7 +159,7 @@ mixinText: |
 profileParsersText: >
   # author: Lyana-nullptr
 
-  # version: 2024.10.15
+  # version: 2024.11.13
 
   # 配置文件转换器，数组格式
 
@@ -194,30 +194,38 @@ profileParsersText: >
           - name: 🥰 代之以理
             type: select
             proxies:
-              - ✈️ 自动选择
+              - ✈️ 自动选择：全部
+              - 🎍 自动选择：港澳台
+              - 🏫 自动选择：新加坡
+              - ⛩️ 自动选择：日本
+              - 🗽 自动选择：美国
               - 🖐️ 手动选择
-          - name: ✈️ 自动选择
+          - name: ✈️ 自动选择：全部
             type: url-test
             url: http://www.apple.com/library/test/success.html
-            interval: 60
-            tolerance: 150
+            interval: 180
+            tolerance: 100
+          - name: 🎍 自动选择：港澳台
+            type: url-test
+            url: http://www.apple.com/library/test/success.html
+            interval: 180
+            tolerance: 100
+          - name: 🏫 自动选择：新加坡
+            type: url-test
+            url: http://www.apple.com/library/test/success.html
+            interval: 180
+            tolerance: 100
+          - name: ⛩️ 自动选择：日本
+            type: url-test
+            url: http://www.apple.com/library/test/success.html
+            interval: 180
+            tolerance: 100
+          - name: 🗽 自动选择：美国
+            type: url-test
+            url: http://www.apple.com/library/test/success.html
+            interval: 180
+            tolerance: 100
           - name: 🖐️ 手动选择
-            type: select
-            proxies:
-              - 🎍 手动选择：香港
-              - 🌠 手动选择：台湾
-              - 🏫 手动选择：新加坡
-              - ⛩️ 手动选择：日本
-              - 🗽 手动选择：美国
-          - name: 🎍 手动选择：香港
-            type: select
-          - name: 🌠 手动选择：台湾
-            type: select
-          - name: 🏫 手动选择：新加坡
-            type: select
-          - name: ⛩️ 手动选择：日本
-            type: select
-          - name: 🗽 手动选择：美国
             type: select
           - name: 📵 禁止通行
             type: select
@@ -226,12 +234,12 @@ profileParsersText: >
               - DIRECT
         # 命令
         commands:
-          - proxy-groups.✈️ 自动选择.proxies.0+[]proxyNames # 向指定策略组添加订阅中的节点名，可使用正则过滤
-          - proxy-groups.🎍 手动选择：香港.proxies.0+[]proxyNames|香港
-          - proxy-groups.🌠 手动选择：台湾.proxies.0+[]proxyNames|台湾
-          - proxy-groups.🏫 手动选择：新加坡.proxies.0+[]proxyNames|新加坡
-          - proxy-groups.⛩️ 手动选择：日本.proxies.0+[]proxyNames|日本
-          - proxy-groups.🗽 手动选择：美国.proxies.0+[]proxyNames|美国
+          - proxy-groups.✈️ 自动选择：全部.proxies.0+[]proxyNames # 向指定策略组添加订阅中的节点名，可使用正则过滤
+          - proxy-groups.🎍 自动选择：港澳台.proxies.0+[]proxyNames|^(.*)(香港|澳门|台湾)+(.*)$
+          - proxy-groups.🏫 自动选择：新加坡.proxies.0+[]proxyNames|新加坡
+          - proxy-groups.⛩️ 自动选择：日本.proxies.0+[]proxyNames|日本
+          - proxy-groups.🗽 自动选择：美国.proxies.0+[]proxyNames|美国
+          - proxy-groups.🖐️ 手动选择.proxies.0+[]proxyNames
           # 一些可能用到的正则过滤节点示例，使分组更细致
           # []proxyNames|a                         # 包含a
           # []proxyNames|^(.*)(a|b)+(.*)$          # 包含a或b
@@ -243,7 +251,10 @@ profileParsersText: >
           # 自定义规则，在这里添加自己的新规则
           - DOMAIN,www.msftconnecttest.com,🥰 代之以理
           - DOMAIN,www.msftncsi.com,🥰 代之以理
+          - DOMAIN-SUFFIX,cm.steampowered.com,DIRECT
+          - DOMAIN-SUFFIX,steamserver.net,DIRECT
           - DOMAIN,cm-sub.pz.pe,DIRECT
+          - PROCESS-NAME,ForzaHorizon4.exe,DIRECT
           # provider 的匹配规则
           - RULE-SET,applications,DIRECT # 需要直连的进程/应用
           - RULE-SET,private,DIRECT # 需要直连的私有域名
