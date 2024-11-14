@@ -159,7 +159,7 @@ mixinText: |
 profileParsersText: >
   # author: Lyana-nullptr
 
-  # version: 2024.11.13
+  # version: 2024.10.15
 
   # 配置文件转换器，数组格式
 
@@ -203,27 +203,27 @@ profileParsersText: >
           - name: ✈️ 自动选择：全部
             type: url-test
             url: http://www.apple.com/library/test/success.html
-            interval: 180
+            interval: 30
             tolerance: 100
           - name: 🎍 自动选择：港澳台
             type: url-test
             url: http://www.apple.com/library/test/success.html
-            interval: 180
+            interval: 60
             tolerance: 100
           - name: 🏫 自动选择：新加坡
             type: url-test
             url: http://www.apple.com/library/test/success.html
-            interval: 180
+            interval: 60
             tolerance: 100
           - name: ⛩️ 自动选择：日本
             type: url-test
             url: http://www.apple.com/library/test/success.html
-            interval: 180
+            interval: 60
             tolerance: 100
           - name: 🗽 自动选择：美国
             type: url-test
             url: http://www.apple.com/library/test/success.html
-            interval: 180
+            interval: 60
             tolerance: 100
           - name: 🖐️ 手动选择
             type: select
@@ -263,6 +263,8 @@ profileParsersText: >
           - RULE-SET,gfw,🥰 代之以理 # GFW 拦截的域名
           - RULE-SET,proxy,🥰 代之以理 # 需要代理的域名
           - RULE-SET,telegramcidr,🥰 代之以理 # Telegram IP
+          - GEOIP,CN,DIRECT
+          - GEOIP,PRIVATE,DIRECT
           - MATCH,DIRECT # 未命中走直连
         # 规则提供者
         mix-rule-providers:
