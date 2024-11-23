@@ -1,9 +1,9 @@
 [init]
-	defaultBranch = main
+  defaultBranch = main
 [core]
-	ignorecase = false
+  ignorecase = false
 [user]
-	name = Lyana
-	email = shabbyacc@outlook.com
+  name = Lyana
+  email = shabbyacc@outlook.com
 [credential "https://gitee.com"]
-	provider = generic
+  provider = generic

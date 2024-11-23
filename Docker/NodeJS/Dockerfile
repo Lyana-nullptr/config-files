@@ -1,7 +1,7 @@
 # 请将该 Dockerfile 放在前端项目的根目录下
 FROM node:20-alpine
 LABEL authors="Lyana-nullptr"\
-      description="基于 Node.js 20 构建的用于运行 Web 前端项目的镜像"
+  description="基于 Node.js 20 构建的用于运行 Web 前端项目的镜像"
 
 # 环境变量
 ENV SERVER_PORT=8081
