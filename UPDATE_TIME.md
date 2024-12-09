@@ -2,7 +2,7 @@
 
 - Clash for Windows:
 
-  2024/11/23
+  2024/12/09
 
 - Docker:
 
@@ -42,7 +42,7 @@
 
 - Windows Terminal:
 
-  2024/11/23
+  2024/12/09
 
 - ZSH:
 

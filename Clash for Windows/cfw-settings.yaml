@@ -19,297 +19,592 @@ proxyOrder: 0
 proxyDelayType: 1
 latencyUrl: http://www.apple.com/library/test/success.html
 theme: 0
-mixinText: |
-  # author: Lyana-nullptr
-  # version: 2024.10.15
-  # Mixin 配置（覆盖配置）
-  mixin:
-    # DNS 配置
-    dns:
-      enable: true
-      ipv6: true
-      enhanced-mode: fake-ip # 推荐使用 fake-ip 模式
-      fake-ip-range: 198.18.0.1/16 # fake-ip 使用的地址池
-      # fake-ip 排除列表，在列表中的域名使用真实 IP 地址
-      fake-ip-filter:
-        # === Local ===
-        - "*.lan"
-        - "*.local"
-        - "*.docker.internal"
-        # === Microsoft Windows Service ===
-        - "*.msftncsi.com"
-        - "*.msftconnecttest.com"
-        - WORKGROUP
-        # === NTP Service ===
-        - time.*.com
-        - time1.*.com
-        - time2.*.com
-        - time3.*.com
-        - time4.*.com
-        - time5.*.com
-        - time6.*.com
-        - time7.*.com
-        - time.*.gov
-        - time.*.edu.cn
-        - "*.time.edu.cn"
-        - ntp.*.com
-        - ntp1.*.com
-        - ntp2.*.com
-        - ntp3.*.com
-        - ntp4.*.com
-        - ntp5.*.com
-        - ntp6.*.com
-        - ntp7.*.com
-        - ntp.*.*.cn
-        - "*.ntp.org.cn"
-        - +.pool.ntp.org
-        # === Social Media Service ===
-        # NetEase
-        - "*.music.163.com"
-        - "*.126.net"
-        # Baidu
-        - musicapi.taihe.com
-        - music.taihe.com
-        # Kugou
-        - songsearch.kugou.com
-        - trackercdn.kugou.com
-        # Kuwo
-        - "*.kuwo.cn"
-        # JOOX
-        - api-jooxtt.sanook.com
-        - api.joox.com
-        - joox.com
-        # QQ
-        - localhost.ptlogin2.qq.com
-        - "*.y.qq.com"
-        - "*.music.tc.qq.com"
-        - aqqmusic.tc.qq.com
-        - "*.stream.qqmusic.qq.com"
-        # === Game Service ===
-        # Nintendo Switch
-        - "*.n.n.srv.nintendo.net"
-        # Sony PlayStation
-        - "*.stun.playstation.net"
-        # Microsoft Xbox
-        - xbox.*.*.microsoft.com
-        - "*.*.xboxlive.com"
-        # === STUN Server ===
-        - +.stun.*.*
-        - +.stun.*.*.*
-        - +.stun.*.*.*.*
-        - +.stun.*.*.*.*.*
-        - +.stun01.*.*
-        - stunserver.*
-        # === CQUT ===
-        - +.cqut.edu.cn
-      # Clash 总是使用第一个 DNS 查询的结果，适当设置几个响应快的 DNS 即可
-      # defalut-nameserver 用于解析 nameserver、fallback 中的 DNS
-      # 必须写明 IP，支持 UDP、TCP、DoT、DoH
-      # default-nameserver:
-      #   - "10.103.130.172" # 校园网宽带网关
-      #   - "180.184.1.1" # 字节跳动 IPv4
-      #   - "180.76.76.76" # 百度 IPv4
-      # nameserver 支持 UDP、TCP、DoT、DoH
-      nameserver:
-        - "[fe80::1999:1:]:53"
-        - "[2400:3200:baba::1]:53" # 阿里 IPv6
-        - "[2402:4e00::]:53" # 腾讯 IPv6
-        - "10.103.130.172" # 校园网宽带网关
-        - "180.184.1.1" # 字节跳动 IPv4
-        - "180.76.76.76" # 百度 IPv4
-      # fallback 支持 UDP、TCP、DoT、DoH
-      # 配置 fallback 后默认启用 fallback-filter, geoip-code 为 cn
-      fallback:
-        - https://223.5.5.5/dns-query # 阿里 DoH, ECS Support
-        - https://1.12.12.12/dns-query # 腾讯 DoH
-        - https://1.1.1.1/dns-query # Cloudflare DoH
-        - tls://223.5.5.5:853 # 阿里 DoT, ECS Support
-        - tls://1.12.12.12:853 # 腾讯 DoT
-        - tls://1.1.1.1:853 # Cloudflare DoT
-      # fallback-filter 会对 IP 进行过滤，是对抗 DNS 污染攻击的一种措施
-      # 1. 当 geoip 开启且 code 设置为 CN 时
-      # 属于中国的 IP 将使用 nameserver 中的 dns
-      # 其它国家的 IP 将使用 fallback 中的 dns
-      # 2. 当请求的域名匹配 domain 且 dns 响应的 ip 匹配 ip-cidr
-      # 强制使用 fallback 中的 dns
-      fallback-filter:
-        geoip: true
-        geoip-code: CN
-        ip-cidr:
-          - 240.0.0.0/4
-        domain:
-          - +.google.com
-          - +.facebook.com
-          - +.twitter.com
-          - +.youtube.com
-          - +.xn--ngstr-lra8j.com
-          - +.google.cn
-          - +.googleapis.cn
-          - +.googleapis.com
-          - +.gvt1.com
-    # Tun 配置（Windows 版）
-    tun:
-      enable: true
-      stack: system # 使用 system stack 需要在防火墙放行程序
-      # 当 fake-ip-range 是 198.18.0.1/16, 应该劫持 198.18.0.2:53
-      dns-hijack:
-        - 198.18.0.2:53
-      auto-route: true
-      auto-detect-interface: true
-profileParsersText: >
-  # author: Lyana-nullptr
+mixinText: "# author: Lyana-nullptr\r
 
-  # version: 2024.10.15
+  # version: 2024.10.15\r
 
-  # 配置文件转换器，数组格式
+  # Mixin 配置（覆盖配置）\r
 
-  parsers:
-    # - reg: ^.*$ 匹配所有订阅，或  - url: https://example.com/profile.yaml 指定订阅
-    - reg: ^.*$
-      # 删除服务商提供的 DNS、策略组、规则提供者和规则
-      code: |
-        module.exports.parse = (raw, { yaml }) => {
-          const rawObj = yaml.parse(raw)
-          const dns = {}
-          const proxyGroups = []
-          const ruleProviders = []
-          const rules = []
-          return yaml.stringify({ ...rawObj, dns,'proxy-groups': proxyGroups, 'rule-providers': ruleProviders, rules })
-        }
-      # 建立自己的配置
-      yaml:
-        # 策略组
-        # 策略组示例
-        # - name: 分组名
-        #   type: select       # 手动选点
-        #   url-test           # 自动选择延迟最低的节点
-        #   fallback           # 节点故障时自动切换下一个
-        #   laod-balance       # 均衡使用分组内的节点
-        #   url: http://www.apple.com/library/test/success.html         # 测试地址 非select类型分组必要
-        #   interval: 60       # 自动测试间隔时间，单位秒 非select类型分组 必要
-        #   tolerance: 150     # 允许偏差的 ms，节点之间延迟差小于该值不切换 非必要
-        #   proxies:
-        #       - 节点名称或其他分组套娃
-        prepend-proxy-groups:
-          - name: 🥰 代之以理
-            type: select
-            proxies:
-              - ✈️ 自动选择：全部
-              - 🎍 自动选择：港澳台
-              - 🏫 自动选择：新加坡
-              - ⛩️ 自动选择：日本
-              - 🗽 自动选择：美国
-              - 🖐️ 手动选择
-          - name: ✈️ 自动选择：全部
-            type: url-test
-            url: http://www.apple.com/library/test/success.html
-            interval: 30
-            tolerance: 100
-          - name: 🎍 自动选择：港澳台
-            type: url-test
-            url: http://www.apple.com/library/test/success.html
-            interval: 60
-            tolerance: 100
-          - name: 🏫 自动选择：新加坡
-            type: url-test
-            url: http://www.apple.com/library/test/success.html
-            interval: 60
-            tolerance: 100
-          - name: ⛩️ 自动选择：日本
-            type: url-test
-            url: http://www.apple.com/library/test/success.html
-            interval: 60
-            tolerance: 100
-          - name: 🗽 自动选择：美国
-            type: url-test
-            url: http://www.apple.com/library/test/success.html
-            interval: 60
-            tolerance: 100
-          - name: 🖐️ 手动选择
-            type: select
-          - name: 📵 禁止通行
-            type: select
-            proxies:
-              - REJECT
-              - DIRECT
-        # 命令
-        commands:
-          - proxy-groups.✈️ 自动选择：全部.proxies.0+[]proxyNames # 向指定策略组添加订阅中的节点名，可使用正则过滤
-          - proxy-groups.🎍 自动选择：港澳台.proxies.0+[]proxyNames|^(.*)(香港|澳门|台湾)+(.*)$
-          - proxy-groups.🏫 自动选择：新加坡.proxies.0+[]proxyNames|新加坡
-          - proxy-groups.⛩️ 自动选择：日本.proxies.0+[]proxyNames|日本
-          - proxy-groups.🗽 自动选择：美国.proxies.0+[]proxyNames|美国
-          - proxy-groups.🖐️ 手动选择.proxies.0+[]proxyNames
-          # 一些可能用到的正则过滤节点示例，使分组更细致
-          # []proxyNames|a                         # 包含a
-          # []proxyNames|^(.*)(a|b)+(.*)$          # 包含a或b
-          # []proxyNames|^(?=.*a)(?=.*b).*$        # 包含a和b
-          # []proxyNames|^((?!b).)*a((?!b).)*$     # 包含a且不包含b
-          # []proxyNames|^((?!b|c).)*a((?!b|c).)*$ # 包含a且不包含b或c
-        # 规则
-        prepend-rules: # 规则由上往下遍历，如上面规则已经命中，则不再往下处理
-          # 自定义规则，在这里添加自己的新规则
-          - DOMAIN,www.msftconnecttest.com,🥰 代之以理
-          - DOMAIN,www.msftncsi.com,🥰 代之以理
-          - DOMAIN-SUFFIX,cm.steampowered.com,DIRECT
-          - DOMAIN-SUFFIX,steamserver.net,DIRECT
-          - DOMAIN,cm-sub.pz.pe,DIRECT
-          - PROCESS-NAME,ForzaHorizon4.exe,DIRECT
-          # provider 的匹配规则
-          - RULE-SET,applications,DIRECT # 需要直连的进程/应用
-          - RULE-SET,private,DIRECT # 需要直连的私有域名
-          - RULE-SET,reject,📵 禁止通行 # 广告域名
-          - RULE-SET,tld-not-cn,🥰 代之以理 # 非中国大陆使用的顶级域名列表
-          - RULE-SET,gfw,🥰 代之以理 # GFW 拦截的域名
-          - RULE-SET,proxy,🥰 代之以理 # 需要代理的域名
-          - RULE-SET,telegramcidr,🥰 代之以理 # Telegram IP
-          - GEOIP,CN,DIRECT
-          - GEOIP,PRIVATE,DIRECT
-          - MATCH,DIRECT # 未命中走直连
-        # 规则提供者
-        mix-rule-providers:
-          applications:
-            type: http
-            behavior: classical
-            url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/applications.txt"
-            path: ./ruleset/applications.yaml
-            interval: 86400
-          private:
-            type: http
-            behavior: domain
-            url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/private.txt"
-            path: ./ruleset/private.yaml
-            interval: 86400
-          reject:
-            type: http
-            behavior: domain
-            url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/reject.txt"
-            path: ./ruleset/reject.yaml
-            interval: 86400
-          tld-not-cn:
-            type: http
-            behavior: domain
-            url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/tld-not-cn.txt"
-            path: ./ruleset/tld-not-cn.yaml
-            interval: 86400
-          gfw:
-            type: http
-            behavior: domain
-            url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/gfw.txt"
-            path: ./ruleset/gfw.yaml
-            interval: 86400
-          proxy:
-            type: http
-            behavior: domain
-            url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/proxy.txt"
-            path: ./ruleset/proxy.yaml
-            interval: 86400
-          telegramcidr:
-            type: http
-            behavior: ipcidr
-            url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/telegramcidr.txt"
-            path: ./ruleset/telegramcidr.yaml
-            interval: 86400
+  mixin:\r
+
+  \  # DNS 配置\r
+
+  \  dns:\r
+
+  \    enable: true\r
+
+  \    ipv6: true\r
+
+  \    enhanced-mode: fake-ip # 推荐使用 fake-ip 模式\r
+
+  \    fake-ip-range: 198.18.0.1/16 # fake-ip 使用的地址池\r
+
+  \    # fake-ip 排除列表，在列表中的域名使用真实 IP 地址\r
+
+  \    fake-ip-filter:\r
+
+  \      # === Local ===\r
+
+  \      - \"*.lan\"\r
+
+  \      - \"*.local\"\r
+
+  \      - \"*.docker.internal\"\r
+
+  \      # === Microsoft Windows Service ===\r
+
+  \      - \"*.msftncsi.com\"\r
+
+  \      - \"*.msftconnecttest.com\"\r
+
+  \      - WORKGROUP\r
+
+  \      # === NTP Service ===\r
+
+  \      - time.*.com\r
+
+  \      - time1.*.com\r
+
+  \      - time2.*.com\r
+
+  \      - time3.*.com\r
+
+  \      - time4.*.com\r
+
+  \      - time5.*.com\r
+
+  \      - time6.*.com\r
+
+  \      - time7.*.com\r
+
+  \      - time.*.gov\r
+
+  \      - time.*.edu.cn\r
+
+  \      - \"*.time.edu.cn\"\r
+
+  \      - ntp.*.com\r
+
+  \      - ntp1.*.com\r
+
+  \      - ntp2.*.com\r
+
+  \      - ntp3.*.com\r
+
+  \      - ntp4.*.com\r
+
+  \      - ntp5.*.com\r
+
+  \      - ntp6.*.com\r
+
+  \      - ntp7.*.com\r
+
+  \      - ntp.*.*.cn\r
+
+  \      - \"*.ntp.org.cn\"\r
+
+  \      - +.pool.ntp.org\r
+
+  \      # === Social Media Service ===\r
+
+  \      # NetEase\r
+
+  \      - \"*.music.163.com\"\r
+
+  \      - \"*.126.net\"\r
+
+  \      # Baidu\r
+
+  \      - musicapi.taihe.com\r
+
+  \      - music.taihe.com\r
+
+  \      # Kugou\r
+
+  \      - songsearch.kugou.com\r
+
+  \      - trackercdn.kugou.com\r
+
+  \      # Kuwo\r
+
+  \      - \"*.kuwo.cn\"\r
+
+  \      # JOOX\r
+
+  \      - api-jooxtt.sanook.com\r
+
+  \      - api.joox.com\r
+
+  \      - joox.com\r
+
+  \      # QQ\r
+
+  \      - localhost.ptlogin2.qq.com\r
+
+  \      - \"*.y.qq.com\"\r
+
+  \      - \"*.music.tc.qq.com\"\r
+
+  \      - aqqmusic.tc.qq.com\r
+
+  \      - \"*.stream.qqmusic.qq.com\"\r
+
+  \      # === Game Service ===\r
+
+  \      # Nintendo Switch\r
+
+  \      - \"*.n.n.srv.nintendo.net\"\r
+
+  \      # Sony PlayStation\r
+
+  \      - \"*.stun.playstation.net\"\r
+
+  \      # Microsoft Xbox\r
+
+  \      - xbox.*.*.microsoft.com\r
+
+  \      - \"*.*.xboxlive.com\"\r
+
+  \      # === STUN Server ===\r
+
+  \      - +.stun.*.*\r
+
+  \      - +.stun.*.*.*\r
+
+  \      - +.stun.*.*.*.*\r
+
+  \      - +.stun.*.*.*.*.*\r
+
+  \      - +.stun01.*.*\r
+
+  \      - stunserver.*\r
+
+  \      # === CQUT ===\r
+
+  \      - +.cqut.edu.cn\r
+
+  \    # Clash 总是使用第一个 DNS 查询的结果，适当设置几个响应快的 DNS 即可\r
+
+  \    # defalut-nameserver 用于解析 nameserver、fallback 中的 DNS\r
+
+  \    # 必须写明 IP，支持 UDP、TCP、DoT、DoH\r
+
+  \    # default-nameserver:\r
+
+  \    #   - \"10.103.130.172\" # 校园网宽带网关\r
+
+  \    #   - \"180.184.1.1\" # 字节跳动 IPv4\r
+
+  \    #   - \"180.76.76.76\" # 百度 IPv4\r
+
+  \    # nameserver 支持 UDP、TCP、DoT、DoH\r
+
+  \    nameserver:\r
+
+  \      - \"[fe80::1999:1:]:53\"\r
+
+  \      - \"[2400:3200:baba::1]:53\" # 阿里 IPv6\r
+
+  \      - \"[2402:4e00::]:53\" # 腾讯 IPv6\r
+
+  \      - \"10.103.130.172\" # 校园网宽带网关\r
+
+  \      - \"180.184.1.1\" # 字节跳动 IPv4\r
+
+  \      - \"180.76.76.76\" # 百度 IPv4\r
+
+  \    # fallback 支持 UDP、TCP、DoT、DoH\r
+
+  \    # 配置 fallback 后默认启用 fallback-filter, geoip-code 为 cn\r
+
+  \    fallback:\r
+
+  \      - https://223.5.5.5/dns-query # 阿里 DoH, ECS Support\r
+
+  \      - https://1.12.12.12/dns-query # 腾讯 DoH\r
+
+  \      - https://1.1.1.1/dns-query # Cloudflare DoH\r
+
+  \      - tls://223.5.5.5:853 # 阿里 DoT, ECS Support\r
+
+  \      - tls://1.12.12.12:853 # 腾讯 DoT\r
+
+  \      - tls://1.1.1.1:853 # Cloudflare DoT\r
+
+  \    # fallback-filter 会对 IP 进行过滤，是对抗 DNS 污染攻击的一种措施\r
+
+  \    # 1. 当 geoip 开启且 code 设置为 CN 时\r
+
+  \    # 属于中国的 IP 将使用 nameserver 中的 dns\r
+
+  \    # 其它国家的 IP 将使用 fallback 中的 dns\r
+
+  \    # 2. 当请求的域名匹配 domain 且 dns 响应的 ip 匹配 ip-cidr\r
+
+  \    # 强制使用 fallback 中的 dns\r
+
+  \    fallback-filter:\r
+
+  \      geoip: true\r
+
+  \      geoip-code: CN\r
+
+  \      ip-cidr:\r
+
+  \        - 240.0.0.0/4\r
+
+  \      domain:\r
+
+  \        - +.google.com\r
+
+  \        - +.facebook.com\r
+
+  \        - +.twitter.com\r
+
+  \        - +.youtube.com\r
+
+  \        - +.xn--ngstr-lra8j.com\r
+
+  \        - +.google.cn\r
+
+  \        - +.googleapis.cn\r
+
+  \        - +.googleapis.com\r
+
+  \        - +.gvt1.com\r
+
+  \  # Tun 配置（Windows 版）\r
+
+  \  tun:\r
+
+  \    enable: true\r
+
+  \    stack: system # 使用 system stack 需要在防火墙放行程序\r
+
+  \    # 当 fake-ip-range 是 198.18.0.1/16, 应该劫持 198.18.0.2:53\r
+
+  \    dns-hijack:\r
+
+  \      - 198.18.0.2:53\r
+
+  \    auto-route: true\r
+
+  \    auto-detect-interface: true\r\n"
+profileParsersText: "# author: Lyana-nullptr\r
+
+  # version: 2024.10.15\r
+
+  # 配置文件转换器，数组格式\r
+
+  parsers:\r
+
+  \  # - reg: ^.*$ 匹配所有订阅，或  - url: https://example.com/profile.yaml 指定订阅\r
+
+  \  - reg: ^.*$\r
+
+  \    # 删除服务商提供的 DNS、策略组、规则提供者和规则\r
+
+  \    code: |\r
+
+  \      module.exports.parse = (raw, { yaml }) => {\r
+
+  \        const rawObj = yaml.parse(raw)\r
+
+  \        const dns = {}\r
+
+  \        const proxyGroups = []\r
+
+  \        const ruleProviders = []\r
+
+  \        const rules = []\r
+
+  \        return yaml.stringify({ ...rawObj, dns,'proxy-groups': proxyGroups,
+  'rule-providers': ruleProviders, rules })\r
+
+  \      }\r
+
+  \    # 建立自己的配置\r
+
+  \    yaml:\r
+
+  \      # 策略组\r
+
+  \      # 策略组示例\r
+
+  \      # - name: 分组名\r
+
+  \      #   type: select       # 手动选点\r
+
+  \      #   url-test           # 自动选择延迟最低的节点\r
+
+  \      #   fallback           # 节点故障时自动切换下一个\r
+
+  \      #   laod-balance       # 均衡使用分组内的节点\r
+
+  \      #   url: http://www.apple.com/library/test/success.html         #
+  测试地址 非select类型分组必要\r
+
+  \      #   interval: 60       # 自动测试间隔时间，单位秒 非select类型分组 必要\r
+
+  \      #   tolerance: 150     # 允许偏差的 ms，节点之间延迟差小于该值不切换 非必要\r
+
+  \      #   proxies:\r
+
+  \      #       - 节点名称或其他分组套娃\r
+
+  \      prepend-proxy-groups:\r
+
+  \        - name: 🥰 代之以理\r
+
+  \          type: select\r
+
+  \          proxies:\r
+
+  \            - ✈️ 自动选择：全部\r
+
+  \            - 🎍 自动选择：港澳台\r
+
+  \            - 🏫 自动选择：新加坡\r
+
+  \            - ⛩️ 自动选择：日本\r
+
+  \            - 🗽 自动选择：美国\r
+
+  \            - 🖐️ 手动选择\r
+
+  \        - name: ✈️ 自动选择：全部\r
+
+  \          type: url-test\r
+
+  \          url: http://www.apple.com/library/test/success.html\r
+
+  \          interval: 30\r
+
+  \          tolerance: 100\r
+
+  \        - name: 🎍 自动选择：港澳台\r
+
+  \          type: url-test\r
+
+  \          url: http://www.apple.com/library/test/success.html\r
+
+  \          interval: 60\r
+
+  \          tolerance: 100\r
+
+  \        - name: 🏫 自动选择：新加坡\r
+
+  \          type: url-test\r
+
+  \          url: http://www.apple.com/library/test/success.html\r
+
+  \          interval: 60\r
+
+  \          tolerance: 100\r
+
+  \        - name: ⛩️ 自动选择：日本\r
+
+  \          type: url-test\r
+
+  \          url: http://www.apple.com/library/test/success.html\r
+
+  \          interval: 60\r
+
+  \          tolerance: 100\r
+
+  \        - name: 🗽 自动选择：美国\r
+
+  \          type: url-test\r
+
+  \          url: http://www.apple.com/library/test/success.html\r
+
+  \          interval: 60\r
+
+  \          tolerance: 100\r
+
+  \        - name: 🖐️ 手动选择\r
+
+  \          type: select\r
+
+  \        - name: 📵 禁止通行\r
+
+  \          type: select\r
+
+  \          proxies:\r
+
+  \            - REJECT\r
+
+  \            - DIRECT\r
+
+  \      # 命令\r
+
+  \      commands:\r
+
+  \        - proxy-groups.✈️ 自动选择：全部.proxies.0+[]proxyNames #
+  向指定策略组添加订阅中的节点名，可使用正则过滤\r
+
+  \        - proxy-groups.🎍
+  自动选择：港澳台.proxies.0+[]proxyNames|^(.*)(香港|澳门|台湾)+(.*)$\r
+
+  \        - proxy-groups.🏫 自动选择：新加坡.proxies.0+[]proxyNames|新加坡\r
+
+  \        - proxy-groups.⛩️ 自动选择：日本.proxies.0+[]proxyNames|日本\r
+
+  \        - proxy-groups.🗽 自动选择：美国.proxies.0+[]proxyNames|美国\r
+
+  \        - proxy-groups.🖐️ 手动选择.proxies.0+[]proxyNames\r
+
+  \        # 一些可能用到的正则过滤节点示例，使分组更细致\r
+
+  \        # []proxyNames|a                         # 包含a\r
+
+  \        # []proxyNames|^(.*)(a|b)+(.*)$          # 包含a或b\r
+
+  \        # []proxyNames|^(?=.*a)(?=.*b).*$        # 包含a和b\r
+
+  \        # []proxyNames|^((?!b).)*a((?!b).)*$     # 包含a且不包含b\r
+
+  \        # []proxyNames|^((?!b|c).)*a((?!b|c).)*$ # 包含a且不包含b或c\r
+
+  \      # 规则\r
+
+  \      prepend-rules: # 规则由上往下遍历，如上面规则已经命中，则不再往下处理\r
+
+  \        # 自定义规则，在这里添加自己的新规则\r
+
+  \        - DOMAIN,www.msftconnecttest.com,🥰 代之以理\r
+
+  \        - DOMAIN,www.msftncsi.com,🥰 代之以理\r
+
+  \        - DOMAIN-SUFFIX,tampermonkey.net,🥰 代之以理\r
+
+  \        - PROCESS-NAME,ForzaHorizon4.exe,DIRECT\r
+
+  \        - DOMAIN,cm-sub.pz.pe,DIRECT\r
+
+  \        - DOMAIN-SUFFIX,cm.steampowered.com,DIRECT\r
+
+  \        - DOMAIN-SUFFIX,steamserver.net,DIRECT\r
+
+  \        # provider 的匹配规则\r
+
+  \        - RULE-SET,applications,DIRECT # 需要直连的进程/应用\r
+
+  \        - RULE-SET,private,DIRECT # 需要直连的私有域名\r
+
+  \        - RULE-SET,reject,📵 禁止通行 # 广告域名\r
+
+  \        - RULE-SET,tld-not-cn,🥰 代之以理 # 非中国大陆使用的顶级域名列表\r
+
+  \        - RULE-SET,gfw,🥰 代之以理 # GFW 拦截的域名\r
+
+  \        - RULE-SET,proxy,🥰 代之以理 # 需要代理的域名\r
+
+  \        - RULE-SET,telegramcidr,🥰 代之以理 # Telegram IP\r
+
+  \        - GEOIP,CN,DIRECT\r
+
+  \        - GEOIP,PRIVATE,DIRECT\r
+
+  \        - MATCH,DIRECT # 未命中走直连\r
+
+  \      # 规则提供者\r
+
+  \      mix-rule-providers:\r
+
+  \        applications:\r
+
+  \          type: http\r
+
+  \          behavior: classical\r
+
+  \          url:
+  \"https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/applications.t\
+  xt\"\r
+
+  \          path: ./ruleset/applications.yaml\r
+
+  \          interval: 86400\r
+
+  \        private:\r
+
+  \          type: http\r
+
+  \          behavior: domain\r
+
+  \          url:
+  \"https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/private.txt\"\r
+
+  \          path: ./ruleset/private.yaml\r
+
+  \          interval: 86400\r
+
+  \        reject:\r
+
+  \          type: http\r
+
+  \          behavior: domain\r
+
+  \          url:
+  \"https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/reject.txt\"\r
+
+  \          path: ./ruleset/reject.yaml\r
+
+  \          interval: 86400\r
+
+  \        tld-not-cn:\r
+
+  \          type: http\r
+
+  \          behavior: domain\r
+
+  \          url:
+  \"https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/tld-not-cn.txt\
+  \"\r
+
+  \          path: ./ruleset/tld-not-cn.yaml\r
+
+  \          interval: 86400\r
+
+  \        gfw:\r
+
+  \          type: http\r
+
+  \          behavior: domain\r
+
+  \          url:
+  \"https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/gfw.txt\"\r
+
+  \          path: ./ruleset/gfw.yaml\r
+
+  \          interval: 86400\r
+
+  \        proxy:\r
+
+  \          type: http\r
+
+  \          behavior: domain\r
+
+  \          url:
+  \"https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/proxy.txt\"\r
+
+  \          path: ./ruleset/proxy.yaml\r
+
+  \          interval: 86400\r
+
+  \        telegramcidr:\r
+
+  \          type: http\r
+
+  \          behavior: ipcidr\r
+
+  \          url:
+  \"https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/telegramcidr.t\
+  xt\"\r
+
+  \          path: ./ruleset/telegramcidr.yaml\r
+
+  \          interval: 86400\r\n"
 editor: 1
 editorFontSize: 14
 showNotifications: false
