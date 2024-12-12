@@ -20,7 +20,7 @@
 
   2024/11/23
 
-- MarkdownLint
+- MarkdownLint:
 
   2024/11/23
 
@@ -28,9 +28,13 @@
 
   2024/11/23
 
-- NPM
+- NPM:
 
   2024/11/23
+
+- PowerShell:
+
+  2024/12/12
 
 - Prettier:
 

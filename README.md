@@ -57,6 +57,8 @@
   - settings.xml
 - NPM
   - .npmrc
+- PowerShell
+  - Microsoft.PowerShell_profile.ps1
 - Prettier
   - .prettierrc
 - Vim
